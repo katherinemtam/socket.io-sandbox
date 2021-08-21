@@ -14,7 +14,9 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('user connected');
   socket.on('chat message', (msg) => {
-    console.log('message: ' + msg);
+    //io.emit sends the event to all connected sockets, including the sender
+    //socket.broadcast.emit('hi') to emit to everyone except a certain socket
+    io.emit('chat message', msg);
   });
   //when user disconnects
   socket.on('disconnect', () => {
