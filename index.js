@@ -12,7 +12,10 @@ app.get('/', (req, res) => {
 
 //listen for incoming sockets
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('user connected');
+  socket.on('chat message', (msg) => {
+    console.log('message: ' + msg);
+  });
   //when user disconnects
   socket.on('disconnect', () => {
     console.log('user disconnected');
