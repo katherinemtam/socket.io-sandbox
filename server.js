@@ -3,6 +3,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const formatMessage = require('./utils/messages')
 
 const app = express();
 const server = http.createServer(app);
@@ -11,26 +12,28 @@ const io = socketio(server)
 // set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+const botName = 'ChatCord Bot';
+
 // run when client connects
 io.on('connection', socket => {
   // we catch this on the client side via main.js
   // socket.emit will emit to the single user/client that is connecting
-  socket.emit('message', 'Welcome to ChatCord!');
+  socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
 
   // broadcast when a user connects
   // socket.broadcast.emit will emit to everyone except the user that is connecting
-  socket.broadcast.emit('message', 'A user has joined the chat');
+  socket.broadcast.emit('message', formatMessage(botName, 'A user has joined the chat'));
 
   // runs when client disconnects
   socket.on('disconnect', () => {
     // io.emit will emit to everyone
-    io.emit('message', 'A user has left the chat');
+    io.emit('message', formatMessage(botName, 'A user has left the chat'));
   });
 
   // listen for chatMessage and emit to everybody
   socket.on('chatMessage', msg => {
     // calls "message" in main.js (line 7)
-    io.emit('message', msg);
+    io.emit('message', formatMessage('USER', msg));
   });
 })
 
