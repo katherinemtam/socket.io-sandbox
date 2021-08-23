@@ -17,13 +17,16 @@
       <h1><i class="fas fa-smile"></i> ChatCord</h1>
     </header>
     <main class="join-main">
+      <!-- action directly submits to this file -->
       <form action="chat.html">
         <div class="form-control">
           <label for="username">Username</label>
+          <!-- username gets placed into the query string, will grab this later on to put into application -->
           <input type="text" name="username" id="username" placeholder="Enter username..." required />
         </div>
         <div class="form-control">
           <label for="room">Room</label>
+          <!-- room gets placed into the query string -->
           <select name="room" id="room">
             <option value="JavaScript">JavaScript</option>
             <option value="Python">Python</option>
