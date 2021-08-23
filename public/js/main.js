@@ -7,10 +7,11 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
 
-console.log(username, room);
-
 // we have access to this because of the script added in chat.html (line 58)
 const socket = io();
+
+// join chatroom
+socket.emit('joinRoom', { username, room });
 
 // catches "message" from server.js
 socket.on('message', message => {
@@ -19,7 +20,7 @@ socket.on('message', message => {
 
   // every time we get a message, scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;
-})
+});
 
 // message submit
 chatForm.addEventListener('submit', (e) => {
@@ -48,4 +49,5 @@ function outputMessage(message) {
     </p>
   `; 
   document.querySelector('.chat-messages').appendChild(div);
-}
+};
+
