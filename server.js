@@ -21,10 +21,16 @@ io.on('connection', socket => {
   // socket.broadcast.emit will emit to everyone except the user that is connecting
   socket.broadcast.emit('message', 'A user has joined the chat');
 
-  //Runs when client disconnects
+  // runs when client disconnects
   socket.on('disconnect', () => {
     // io.emit will emit to everyone
     io.emit('message', 'A user has left the chat');
+  });
+
+  // listen for chatMessage and emit to everybody
+  socket.on('chatMessage', msg => {
+    // calls "message" in main.js (line 7)
+    io.emit('message', msg);
   });
 })
 
