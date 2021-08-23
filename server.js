@@ -1,12 +1,21 @@
 const path = require('path');
-
+// http used by express under the hood
+const http = require('http');
 const express = require('express');
+const socketio = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server)
 
 // set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+// run when client connects
+io.on('connection', socket => {
+  console.log('New WS Connection...')
+})
+
 const PORT = 3000 || process.env.PORT;
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
